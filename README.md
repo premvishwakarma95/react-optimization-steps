@@ -54,3 +54,81 @@ function App() {
 }
 
 ```
+
+---
+
+## 2 Use useCallback hook.
+- returns memoize function.
+- You pass a function as a prop to a child component.
+- Without useCallback, the function is recreated on every render, causing unnecessary re-renders.
+- If will use useCallback then will not be re-created or not re-render that's why will not re-render the children again.
+
+```js
+// with useCallback
+import React, { useState, useCallback } from "react";
+
+const Child = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+
+  return (
+    <button onClick={onClick}>
+      Child Button
+    </button>
+  );
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = useCallback(() => {
+    console.log("Child button clicked");
+  }, []);
+
+  return (
+    <div>
+      <h2>Parent Count: {count}</h2>
+
+      <Child onClick={handleClick} />
+
+      <button onClick={() => setCount(count + 1)}>
+        Parent Button
+      </button>
+    </div>
+  );
+}
+
+
+// without useCallback
+import React, { useState } from "react";
+
+const Child = React.memo(({ onClick }) => {
+  console.log("Child rendered");
+
+  return (
+    <button onClick={onClick}>
+      Child Button
+    </button>
+  );
+});
+
+export default function App() {
+  const [count, setCount] = useState(0);
+
+  const handleClick = () => {
+    console.log("Child button clicked");
+  };
+
+  return (
+    <div>
+      <h2>Parent Count: {count}</h2>
+
+      <Child onClick={handleClick} />
+
+      <button onClick={() => setCount(count + 1)}>
+        Parent Button
+      </button>
+    </div>
+  );
+}
+
+```
