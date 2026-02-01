@@ -132,3 +132,68 @@ export default function App() {
 }
 
 ```
+
+---
+
+## 3 use React.memo().
+- React.memo is used to prevent unnecessary re-renders of a component when its props have not changed.
+- If any state changes on parent then will not re-render will we have not passed as props in children component.
+
+```js
+// With React.memo()
+const Child = React.memo(function Child({ name }) {
+  console.log("Child rendered");
+  return <h3>Hello {name}</h3>;
+});
+
+// Without React.memo()
+function Child({ name }) {
+  console.log("Child rendered");
+  return <h3>Hello {name}</h3>;
+}
+function Parent() {
+  const [count, setCount] = useState(0);
+
+  return (
+    <>
+      <Child name="Prem" />
+      <button onClick={() => setCount(count + 1)}>
+        Click
+      </button>
+    </>
+  );
+}
+```
+
+---
+
+## 4 use lazy loading, suspense.
+- if we use lazy loading then only download that component only on bundler file.
+- If we will not use it then download all components.
+- Lazy loading means loading components only when they are needed, instead of loading everything at once.
+
+```js
+import React, { Suspense, useState } from "react";
+
+const Dashboard = React.lazy(() => import("./Dashboard"));
+
+export default function App() {
+  const [show, setShow] = useState(false);
+
+  return (
+    <div>
+      <h1>Home Page</h1>
+
+      <button onClick={() => setShow(true)}>
+        Load Dashboard
+      </button>
+
+      {show && (
+        <Suspense fallback={<h2>Loading Dashboard...</h2>}>
+          <Dashboard />
+        </Suspense>
+      )}
+    </div>
+  );
+}
+```
