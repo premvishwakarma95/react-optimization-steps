@@ -137,7 +137,7 @@ export default function App() {
 
 ## 3 use React.memo().
 - React.memo is used to prevent unnecessary re-renders of a component when its props have not changed.
-- If any state changes on parent then will not re-render will we have not passed as props in children component.
+- If any state changes on parent then will not re-render when we have not passed as props in children component.
 
 ```js
 // With React.memo()
